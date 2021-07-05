@@ -1,0 +1,116 @@
+{
+   "accountId": "CoreTester",
+   "subAccountId": "core_sms",
+   "trigger": "MO",
+   "definition": {
+       "id": "4c11fb1f-0d7c-495b-a465-de1a012279e9",
+       "name": "Auto Reply Workflow",
+       "version": 1,
+       "steps": [
+           {
+               "stepType": "Branch",
+               "id": "branch_on_mo_country",
+               "do": [],
+               "nextStepId": null,
+               "inputs": {},
+               "outputs": {},
+               "selectNextStep": {
+                   "handle_mo_from_sg": "{{isCountryCode(data.source, 'SG')}}",
+                   "handle_mo_from_us": "{{isCountryCode(data.source, 'US')}}",
+                   "handle_mo_from_others": null
+               }
+           },
+           {
+               "stepType": "Branch",
+               "id": "handle_mo_from_sg",
+               "do": [],
+               "nextStepId": null,
+               "inputs": {},
+               "outputs": {},
+               "selectNextStep": {
+                   "handle_sg_mo_office_hours": "{{isTimeOfDayBetween(data.receivedAt, '09:00:00', '18:00:00', 'Singapore Standard Time')}}",
+                   "handle_sg_mo_out_of_office_hours": null
+               }
+           },
+           {
+               "stepType": "SMS",
+               "id": "handle_sg_mo_office_hours",
+               "do": [],
+               "nextStepId": null,
+               "inputs": {
+                   "subAccountId": "core_sms",
+                   "destination": "{{data.source}}",
+                   "text": "Thank you for your message. Our support staff will be in touch with you soon."
+               },
+               "outputs": {},
+               "selectNextStep": {}
+           },
+           {
+               "stepType": "Wait",
+               "id": "handle_sg_mo_out_of_office_hours",
+               "do": [],
+               "nextStepId": "send_sg_out_of_office_reply",
+               "inputs": {
+                   "minutes": 15
+               },
+               "outputs": {},
+               "selectNextStep": {}
+           },
+           {
+               "stepType": "SMS",
+               "id": "send_sg_out_of_office_reply",
+               "do": [],
+               "nextStepId": null,
+               "inputs": {
+                   "subAccountId": "core_sms",
+                   "destination": "{{data.source}}",
+                   "text": "Thank you for your message. Our support staff will be in touch with you on the next business day."
+               },
+               "outputs": {},
+               "selectNextStep": {}
+           },
+           {
+               "stepType": "ChatAppsMessage",
+               "id": "handle_mo_from_us",
+               "do": [],
+               "nextStepId": null,
+               "inputs": {
+                   "subAccountId": "core_ipm",
+                   "user": {
+                       "msisdn": "{{data.source}}"
+                   },
+                   "type": "text",
+                   "content": {
+                       "text": "Thank you for your message. We have begun processing your request."
+                   }
+               },
+               "outputs": {
+                   "us_message_status": "{{step.status == 'QUEUED' ? 'US message sent successully.' : 'US message failed with status ' + step.status}}"
+               },
+               "selectNextStep": {}
+           },
+           {
+               "stepType": "HttpRequest",
+               "id": "handle_mo_from_others",
+               "do": [],
+               "nextStepId": null,
+               "inputs": {
+                   "url": "https://www.example.com",
+                   "method": "POST",
+                   "headers": {
+                       "authorization": "Bearer xxxxxxx",
+                       "content-Type": "text/plain"
+                   },
+                   "body": "{{'Message received from unknown number ' + data.source}}"
+               },
+               "outputs": {
+                   "httpCode": "{{step.responseCode}}",
+                   "httpReasonPhrase": "{{step.reasonPhrase}}",
+                   "httpResponse": "{{step.responseBody}}"
+               },
+               "selectNextStep": {}
+           }
+       ]
+   },
+   "createdAt": "2020-11-01T00:00:00Z"
+}

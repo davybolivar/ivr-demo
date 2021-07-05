@@ -1,3 +1,5 @@
+const path = require('path');
+
 // craco.config.js
 module.exports = {
     style: {
@@ -7,5 +9,17 @@ module.exports = {
           require('autoprefixer'),
         ],
       },
+    },
+    webpack: {
+      alias: {
+        '@': path.resolve(__dirname, 'src/')
+      }
+    },
+    jest: {
+      configure: {
+        moduleNameMapper: {
+          '^@(.*)$': '<rootDir>/src$1'
+        }
+      }
     },
   }

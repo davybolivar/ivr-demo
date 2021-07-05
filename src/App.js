@@ -1,26 +1,28 @@
 import logo from './logo.svg';
-import { Button } from 'antd';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from 'react-router-dom';
+import Automation from '@/components/Automation';
+import IconNode from '@/components/Automation/IconNode';
+
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <Button type="primary">This is an antd button</Button>
-      </header>
-    </div>
+    <Router>
+      <main className="h-screen relative">
+        <div className="h-full w-full relative">
+          <Switch>
+            <Route exact path="/">
+              <Automation />
+            </Route>
+          </Switch>
+        </div>
+      </main>
+    </Router>
   );
 }
 

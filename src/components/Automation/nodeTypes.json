@@ -1,0 +1,26 @@
+{
+    "Root": {
+        "icon": "flag",
+        "color": "text-yellow-500"
+    },
+    "Branch": {
+        "icon": "git-branch",
+        "color": "text-red-500"
+    },
+    "SMS": {
+        "icon": "smartphone",
+        "color": "text-green-500"
+    },
+    "ChatAppsMessage": {
+        "icon": "message-square",
+        "color": "text-blue-500"
+    },
+    "HttpRequest": {
+        "icon": "link",
+        "color": "text-purple-500"
+    },
+    "Wait": {
+        "icon": "clock",
+        "color": "text-yellow-400"
+    }
+}
