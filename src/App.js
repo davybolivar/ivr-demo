@@ -1,12 +1,9 @@
-import logo from './logo.svg';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from 'react-router-dom';
 import Automation from '@/components/Automation';
-import IconNode from '@/components/Automation/IconNode';
 
 import './App.css';
 
