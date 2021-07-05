@@ -13,9 +13,9 @@ export default memo(({ data }) =>  {
                 position="top"
                 onConnect={(params) => console.log('Handle onConnect', params)}
             />
-            <div className="flex flex-col items-center p-5">
+            <div className={`flex flex-col items-center p-5 ${nodeTypes[data.type]?.color}`}>
                 { nodeTypes[data.type] &&
-                    <FeatherIcon icon={nodeTypes[data.type]?.icon} size={25} className={nodeTypes[data.type]?.color} />
+                    <FeatherIcon icon={nodeTypes[data.type]?.icon} size={25} className="stoke-current" />
                 }
                                 <h2 className="text-base text-gray-600 font-semibold">{ data.label }</h2>
                 {data.subtitle && 
